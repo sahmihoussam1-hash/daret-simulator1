@@ -114,3 +114,75 @@ if (form) {
         }
     });
 }
+ //  US-02 (FORMULAIRE) 
+
+const participantsListe = document.getElementById("participants-liste");
+const ajouterParticipantBtn = document.getElementById("ajouter-participant");
+const participantsCompteur = document.getElementById("participants-compteur");
+
+const MIN_PARTICIPANTS = 2;
+const MAX_PARTICIPANTS = 20;
+
+// on va fait une fct qui cree et aligne en meme temps 
+function creerLigneParticipant(valeur= ""){
+// n creeiw li,input,button document.creatElement 
+const li = document.createComment("li");
+li.classeName = "flex items-center gap-2";
+const input = document.createElement("input");
+input.type = "text";
+input.name = "participant";
+input.value = "valeur";
+input.placeholder = "Prénom du participant";
+input.className = "w-full rounded border border-daret-bordure px-3 py-2 ";
+
+const btnRetirer = document.createElement("button");
+btnRetirer.type = "button";
+btnRetirer.textContent = "Retirer";
+btnRetirer.className = "rounded border border-daret-erreur px-3 py-2 text-daret-erreur";
+// db khasna ndiro l ecouteur dyalna f la button retirer seulement
+btnRetirer.addEventListener("click",() => {
+    const nbrLignes = participantsListe.querySelectorAll("li").length;
+    if (nbrLignes > MIN_PARTICIPANTS) {
+        li.remove(); // ghir had la ligne li katmchi lina 
+        mettreAJourCompteur;
+    }else{
+        alert("un cercle de daret doit avoir au mois 2 participants.");
+    }
+});
+// kanzido input et button wset Li
+li.appendChild("input");
+li.appendChild("btnRetirer");
+// nzido Li wset liste lkbira 
+participantsListe.appendChild(li);
+mettreAJourCompteur();
+}
+// fct COMPTEUR 
+function mettreAJourCompteur(){
+    const lignes = participantsListe.querySelectorAll("li");
+    const nb = lignes.length;
+
+    if (participantsCompteur) {
+        participantsCompteur.textContent = "${nb} participant ${nb > 1 ? 'S':''}" ;
+    }
+    if (ajouterParticipantBtn) {
+        ajouterParticipantBtn.style.display = nb >= MAX_PARTICIPANTS ? "none" : "block" ;
+    }
+}
+// mtn khassna n initialisiw b 3 participant 
+function initialiserParticipants(){
+    participantsListe.innerHTML = " ";
+    for (let i = 0 ; i < 3 ; i++){
+    creerLigneParticipant();
+}
+}
+// Clic sur ajouter
+if (ajouterParticipantBtn) {
+    ajouterParticipantBtn.addEventListener("click", () => {
+        const nb = participantsListe.querySelectorAll("li").length;
+        if (nb < MAX_PARTICIPANTS){
+            creerLigneParticipant();
+        }
+    });
+}
+// nbdaw b 3 participant 
+initialiserParticipants();
