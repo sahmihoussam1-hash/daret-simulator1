@@ -34,21 +34,16 @@ function afficherErreur(input, message) {
 function validerNomCercle() {
     const valeur = nomCercleInput.value.trim();
 
-    const valeur = nomCercleInput.value.trim();
-
     if (!regexNomCercle.test(valeur)) {
         afficherErreur(nomCercleInput, "Le nom doit contenir entre 3 et 40 caractères (lettres, chiffres, espaces, tirets).");
-        return false;
         return false;
     }
     afficherErreur(nomCercleInput, "");
     return true;
 }
 
-// 4. VALIDATION COTISATION 
+// 4. VALIDATION COTISATION
 function validerCotisation() {
-    const valeur = Number(cotisationInput.value);
-
     const valeur = Number(cotisationInput.value);
 
     if (!valeur || valeur < 100 || valeur > 50000 || !Number.isInteger(valeur)) {
@@ -59,7 +54,7 @@ function validerCotisation() {
     return true;
 }
 
-// 5. VALIDATION DATE DE DEBUT 
+// 5. VALIDATION DATE DE DEBUT
 function validerDateDebut() {
     const dateDebut = datedebutInput.value;
 
@@ -75,10 +70,10 @@ function validerDateDebut() {
         return false;
     }
     afficherErreur(datedebutInput, "");
-    afficherErreur(datedebutInput, "");
     return true;
 }
-// 6. VALIDATION PERIODICITE 
+
+// 6. VALIDATION PERIODICITE
 function validerPeriodicite() {
     const valeur = periodiciteInput.value;
     const optionsValides = ["hebdomadaire", "quinzaine", "mensuelle"];
@@ -91,6 +86,7 @@ function validerPeriodicite() {
     afficherErreur(periodiciteInput, "");
     return true;
 }
+
 // 7. ecouteurs
 nomCercleInput.addEventListener("input", validerNomCercle);
 cotisationInput.addEventListener("input", validerCotisation);
@@ -102,13 +98,12 @@ if (form) {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
 
-
-        // les validations li 3ndi 
+        // les validations li 3ndi
         const estNomValide = validerNomCercle();
         const estCotisationValide = validerCotisation();
         const estPeriodiciteValide = validerPeriodicite();
         const estDateValide = validerDateDebut();
-        // Focus 3la le premier erreur
+
         // Focus 3la le premier erreur
         if (!estNomValide) {
             nomCercleInput.focus();
@@ -119,14 +114,13 @@ if (form) {
         } else if (!estDateValide) {
             datedebutInput.focus();
         } else {
+            // Tout est bon : on affiche les calculs (US03)
             afficherCalculsInterface();
         }
-            afficherCalculsInterface();
-   }
     });
 }
-//  US-02 (FORMULAIRE) 
-//  US-02 (FORMULAIRE) 
+
+// US-02 (FORMULAIRE)
 
 const participantsListe = document.getElementById("participants-liste");
 const ajouterParticipantBtn = document.getElementById("ajouter-participant");
@@ -135,21 +129,12 @@ const participantsCompteur = document.getElementById("participants-compteur");
 const MIN_PARTICIPANTS = 2;
 const MAX_PARTICIPANTS = 20;
 
-// on va fait une fct qui cree et aligne en meme temps 
+// on va fait une fct qui cree et aligne en meme temps
 function creerLigneParticipant(valeur = "") {
-    // n creeiw li,input,button document.creatElement 
+    // n creeiw li,input,button avec document.createElement
     const li = document.createElement("li");
     li.className = "flex items-center gap-2";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.name = "participant";
-    input.value = valeur;
-    input.placeholder = "Prénom du participant";
-    input.className = "w-full rounded border border-daret-bordure px-3 py-2 ";
-function creerLigneParticipant(valeur = "") {
-    // n creeiw li,input,button document.creatElement 
-    const li = document.createElement("li");
-    li.className = "flex items-center gap-2";
+
     const input = document.createElement("input");
     input.type = "text";
     input.name = "participant";
@@ -161,129 +146,65 @@ function creerLigneParticipant(valeur = "") {
     btnRetirer.type = "button";
     btnRetirer.textContent = "Retirer";
     btnRetirer.className = "rounded border border-daret-erreur px-3 py-2 text-daret-erreur";
+
     // db khasna ndiro l ecouteur dyalna f la button retirer seulement
     btnRetirer.addEventListener("click", () => {
         const nbrLignes = participantsListe.querySelectorAll("li").length;
         if (nbrLignes > MIN_PARTICIPANTS) {
-            li.remove(); // ghir had la ligne li katmchi lina 
+            li.remove(); // ghir had la ligne li katmchi lina
             mettreAJourCompteur();
         } else {
-            alert("un cercle de daret doit avoir au mois 2 participants.");
+            alert("Un cercle de daret doit avoir au moins 2 participants.");
         }
     });
+
     // kanzido input et button wset Li
     li.appendChild(input);
     li.appendChild(btnRetirer);
-    // nzido Li wset liste lkbira 
-    participantsListe.appendChild(li);
-    mettreAJourCompteur();
-    const btnRetirer = document.createElement("button");
-    btnRetirer.type = "button";
-    btnRetirer.textContent = "Retirer";
-    btnRetirer.className = "rounded border border-daret-erreur px-3 py-2 text-daret-erreur";
-    // db khasna ndiro l ecouteur dyalna f la button retirer seulement
-    btnRetirer.addEventListener("click", () => {
-        const nbrLignes = participantsListe.querySelectorAll("li").length;
-        if (nbrLignes > MIN_PARTICIPANTS) {
-            li.remove(); // ghir had la ligne li katmchi lina 
-            mettreAJourCompteur();
-        } else {
-            alert("un cercle de daret doit avoir au mois 2 participants.");
-        }
-    });
-    // kanzido input et button wset Li
-    li.appendChild(input);
-    li.appendChild(btnRetirer);
-    // nzido Li wset liste lkbira 
+
+    // nzido Li wset liste lkbira
     participantsListe.appendChild(li);
     mettreAJourCompteur();
 }
-// fct COMPTEUR 
-function mettreAJourCompteur() {
+
+// fct COMPTEUR
 function mettreAJourCompteur() {
     const lignes = participantsListe.querySelectorAll("li");
     const nb = lignes.length;
 
     if (participantsCompteur) {
-        participantsCompteur.textContent = `${nb} participant${nb > 1 ? 's' : ''}`;
-        participantsCompteur.textContent = `${nb} participant${nb > 1 ? 's' : ''}`;
+        participantsCompteur.textContent = `${nb} participant${nb > 1 ? "s" : ""}`;
     }
     if (ajouterParticipantBtn) {
         ajouterParticipantBtn.style.display = nb >= MAX_PARTICIPANTS ? "none" : "block";
-        ajouterParticipantBtn.style.display = nb >= MAX_PARTICIPANTS ? "none" : "block";
     }
 }
-// mtn khassna n initialisiw b 3 participant 
+
+// mtn khassna n initialisiw b 3 participants
 function initialiserParticipants() {
-function initialiserParticipants() {
-    participantsListe.innerHTML = " ";
-    for (let i = 0; i < 3; i++) {
-        creerLigneParticipant();
-    }
+    participantsListe.innerHTML = "";
     for (let i = 0; i < 3; i++) {
         creerLigneParticipant();
     }
 }
+
 // Clic sur ajouter
 if (ajouterParticipantBtn) {
     ajouterParticipantBtn.addEventListener("click", () => {
         const nb = participantsListe.querySelectorAll("li").length;
         if (nb < MAX_PARTICIPANTS) {
-        if (nb < MAX_PARTICIPANTS) {
             creerLigneParticipant();
         }
     });
 }
-// nbdaw b 3 participant 
+
+// nbdaw b 3 participants
 initialiserParticipants();
 
 // US03 : CALCULS
 
 // les calculs
 function calculerCercle(cotisation, nombreParticipants) {
-  
-    const cagnotteTour = cotisation * nombreParticipants;
-    const totalVersParParticipant = cotisation * nombreParticipants;
-    const nombreTours = nombreParticipants;
-
-    return {
-        cagnotteTour: cagnotteTour,
-        totalVersParParticipant: totalVersParParticipant,
-        nombreTours: nombreTours
-    };
-}
-// funtion nakhdo biha les donnes w n lencer l calcule 
-function executerCalculs() {
-    const cotisation = Number(cotisationInput.value);
-    const nombreParticipants = participantsListe.querySelectorAll("li").length;
-
-    // ila kant lcotisation vide ou bien les participants < 2, on arrête
-    if (!cotisation || nombreParticipants < 2) {
-        return null;
-    }
-    return calculerCercle(cotisation, nombreParticipants);
-}
-// affichant les resultats dans la page 
-function afficherCalculsInterface() {
-    const resultat = executerCalculs();
-
-    // Si on n'a pas de résultat, on arrête
-    if (!resultat) {
-        return;
-    }
-    // On écrit les valeurs dans le HTML
-    document.getElementById("resume-cagnotte").textContent = resultat.cagnotteTour + " MAD";
-    document.getElementById("resume-total-cycle").textContent = resultat.totalVersParParticipant + " MAD";
-    document.getElementById("resume-nb-tours").textContent = resultat.nombreTours;
-    // On cache le bloc vide et on montre le bloc résultat
-    document.getElementById("etat-vide").classList.add("hidden");
-    document.getElementById("contenu-resultat").classList.remove("hidden");
-}
-// US03 : CALCULS
-
-// les calculs
-function calculerCercle(cotisation, nombreParticipants) {
-  
     const cagnotteTour = cotisation * nombreParticipants;
     const totalVersParParticipant = cotisation * nombreParticipants;
     const nombreTours = nombreParticipants;
@@ -295,18 +216,19 @@ function calculerCercle(cotisation, nombreParticipants) {
     };
 }
 
-// funtion nakhdo biha les donnes w n lencer l calcule 
+// function nakhdo biha les donnees w nlancer le calcul
 function executerCalculs() {
     const cotisation = Number(cotisationInput.value);
     const nombreParticipants = participantsListe.querySelectorAll("li").length;
 
-    // ila kant lcotisation vide ou bien les participants < 2, on arrête
+    // ila kant la cotisation vide ou bien les participants < 2, on arrête
     if (!cotisation || nombreParticipants < 2) {
         return null;
     }
     return calculerCercle(cotisation, nombreParticipants);
 }
-// affichant les resultats dans la page 
+
+// afficher les resultats dans la page
 function afficherCalculsInterface() {
     const resultat = executerCalculs();
 
