@@ -1,4 +1,4 @@
-
+// US01
 const form = document.getElementById("daret-form");
 
 // 1. DÉCLARATION DES VARIABLES
@@ -8,7 +8,7 @@ const periodiciteInput = document.getElementById("periodicite");
 const datedebutInput = document.getElementById("date-debut");
 
 // Regex dyal l-nom du cercle
-const regexNomCercle = /^[a-zA-ZÀ-ÿ0-9\s-]{3,40}\$/;
+const regexNomCercle = /^[a-zA-ZÀ-ÿ0-9\s-]{3,40}$/;
 
 // 2. FONCTION D'ERREUR
 function afficherErreur(input, message) {
@@ -110,7 +110,7 @@ if (form) {
         } else if (!estDateValide) {
             datedebutInput.focus();
         } else {
-            console.log("Formulaire valide! Kolchi 100% s7iḥ.");
+            console.log("Formulaire valide!");
         }
     });
 }
@@ -126,12 +126,12 @@ const MAX_PARTICIPANTS = 20;
 // on va fait une fct qui cree et aligne en meme temps 
 function creerLigneParticipant(valeur= ""){
 // n creeiw li,input,button document.creatElement 
-const li = document.createComment("li");
-li.classeName = "flex items-center gap-2";
+const li = document.createElement("li");
+li.className = "flex items-center gap-2";
 const input = document.createElement("input");
 input.type = "text";
 input.name = "participant";
-input.value = "valeur";
+input.value = valeur;
 input.placeholder = "Prénom du participant";
 input.className = "w-full rounded border border-daret-bordure px-3 py-2 ";
 
@@ -144,14 +144,14 @@ btnRetirer.addEventListener("click",() => {
     const nbrLignes = participantsListe.querySelectorAll("li").length;
     if (nbrLignes > MIN_PARTICIPANTS) {
         li.remove(); // ghir had la ligne li katmchi lina 
-        mettreAJourCompteur;
+        mettreAJourCompteur();
     }else{
         alert("un cercle de daret doit avoir au mois 2 participants.");
     }
 });
 // kanzido input et button wset Li
-li.appendChild("input");
-li.appendChild("btnRetirer");
+li.appendChild(input);
+li.appendChild(btnRetirer);
 // nzido Li wset liste lkbira 
 participantsListe.appendChild(li);
 mettreAJourCompteur();
@@ -162,7 +162,7 @@ function mettreAJourCompteur(){
     const nb = lignes.length;
 
     if (participantsCompteur) {
-        participantsCompteur.textContent = "${nb} participant ${nb > 1 ? 'S':''}" ;
+        participantsCompteur.textContent = `${nb} participant${nb > 1 ? 's' : ''}` ;
     }
     if (ajouterParticipantBtn) {
         ajouterParticipantBtn.style.display = nb >= MAX_PARTICIPANTS ? "none" : "block" ;
@@ -186,3 +186,6 @@ if (ajouterParticipantBtn) {
 }
 // nbdaw b 3 participant 
 initialiserParticipants();
+
+// US03
+
