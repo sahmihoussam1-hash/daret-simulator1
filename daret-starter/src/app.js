@@ -1,3 +1,4 @@
+
 // US01
 const form = document.getElementById("daret-form");
 
@@ -110,7 +111,7 @@ if (form) {
         } else if (!estDateValide) {
             datedebutInput.focus();
         } else {
-            afficherCalculsInterface();
+            console.log("Formulaire valide!");
         }
     });
 }
@@ -187,45 +188,5 @@ if (ajouterParticipantBtn) {
 // nbdaw b 3 participant 
 initialiserParticipants();
 
-// US03 : CALCULS
+// US03
 
-// les calculs
-function calculerCercle(cotisation, nombreParticipants) {
-  
-    const cagnotteTour = cotisation * nombreParticipants;
-    const totalVersParParticipant = cotisation * nombreParticipants;
-    const nombreTours = nombreParticipants;
-
-    return {
-        cagnotteTour: cagnotteTour,
-        totalVersParParticipant: totalVersParParticipant,
-        nombreTours: nombreTours
-    };
-}
-// funtion nakhdo biha les donnes w n lencer l calcule 
-function executerCalculs() {
-    const cotisation = Number(cotisationInput.value);
-    const nombreParticipants = participantsListe.querySelectorAll("li").length;
-
-    // ila kant lcotisation vide ou bien les participants < 2, on arrête
-    if (!cotisation || nombreParticipants < 2) {
-        return null;
-    }
-    return calculerCercle(cotisation, nombreParticipants);
-}
-// affichant les resultats dans la page 
-function afficherCalculsInterface() {
-    const resultat = executerCalculs();
-
-    // Si on n'a pas de résultat, on arrête
-    if (!resultat) {
-        return;
-    }
-    // On écrit les valeurs dans le HTML
-    document.getElementById("resume-cagnotte").textContent = resultat.cagnotteTour + " MAD";
-    document.getElementById("resume-total-cycle").textContent = resultat.totalVersParParticipant + " MAD";
-    document.getElementById("resume-nb-tours").textContent = resultat.nombreTours;
-    // On cache le bloc vide et on montre le bloc résultat
-    document.getElementById("etat-vide").classList.add("hidden");
-    document.getElementById("contenu-resultat").classList.remove("hidden");
-}
