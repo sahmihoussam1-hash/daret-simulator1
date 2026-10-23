@@ -114,8 +114,13 @@ if (form) {
         } else if (!estDateValide) {
             datedebutInput.focus();
         } else {
-            // Tout est bon : on affiche les calculs (US03)
+            console.log("Formulaire valide !");
+            
+            // Calculs financiers (US-03)
             afficherCalculsInterface();
+            
+            // Calendrier et dates (US-04)
+            genererCalendrier();
         }
     });
 }
@@ -245,4 +250,78 @@ function afficherCalculsInterface() {
     // On cache le bloc vide et on montre le bloc résultat
     document.getElementById("etat-vide").classList.add("hidden");
     document.getElementById("contenu-resultat").classList.remove("hidden");
+}
+// US-04 : Calendrier des tours
+// n avanciw la date b la periodecite choisi 
+function calculerProchaineDate(date, periodicite) {
+    // On crée une copie propre de la date
+    const nouvelleDate = new Date(date);
+
+    if (periodicite === "hebdomadaire") {
+        nouvelleDate.setDate(nouvelleDate.getDate() + 7);
+    } else if (periodicite === "quinzaine") {
+        nouvelleDate.setDate(nouvelleDate.getDate() + 14);
+    } else if (periodicite === "mensuelle") {
+        nouvelleDate.setMonth(nouvelleDate.getMonth() + 1);
+    }
+    
+    return nouvelleDate; 
+}
+// recupere nom participant b wahde l array
+function obtenirNomsParticipants(){
+    const inputs = document.querySelectorAll("#participants-liste input");
+    const listeNoms = [];
+
+    inputs.forEach((input) => {
+        const nom = input.value.trim();
+        listeNoms.push(nom !== "" ? nom : "Participant");
+    });
+    return listeNoms;
+}
+// mtn en genere et affiche clendrier des tours des DOM
+function genererCalendrier(){
+    const periodecite = document.getElementById("periodicite").value;
+    const dateDebutStr = document.getElementById("date-debut").value;
+    const cotisation = Number(document.getElementById("cotisation").value);
+    // recuperer le tableau des participants
+    const participants = obtenirNomsParticipants();
+    const montantTotal = cotisation * participants.length;
+
+    const calendrierCorps = document.getElementById("calendrier-corps");
+    calendrierCorps.innerHTML = ""; // pour vider le tableau 
+
+    let dateCourante = new Date(dateDebutStr);
+    let datesTours = [];
+
+    // construire chaque ligne du tableau ;
+    participants.forEach((nom,index) => {
+        const numeroTour = index + 1;
+        const dateFormatee = dateCourante.toLocaleDateString("fr-FR");
+
+        // enregister la date dans notre tableau 
+        datesTours.push(dateFormatee);
+        // Creer la ligne HTML 
+        const ligne = document.createElement("tr");
+        ligne.innerHTML = `
+        <td class = "px-4 py-3 font-medium">${numeroTour}</td>
+        <td class = "px-4 py-3">${dateFormatee}</td>
+        <td class = "px-4 py-3 font-semibold text-daret-vert">${nom}</td>
+        <td class = "px-4 py-3">${montantTotal} MAD</td>
+        <td class = "px-4 py-3">
+           <span class = inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800>
+           En attente
+           </span>
+           </td>
+           <td class = "px-4 py-3"></td>
+           `;
+           calendrierCorps.appendChild(ligne);
+
+           // Calculer la date pour le tour suivant 
+           dateCourante = calculerProchaineDate(dateCourante, periodecite);
+    });
+    // mettre a jour la borne "Premier tour -- dernier tour" dans le resumer
+    const premierTour = datesTours[0];
+    const dernierTour = datesTours [datesTours.length-1];
+
+    document.getElementById("resume-dates").textContent = `${premierTour} · ${dernierTour}`;
 }
