@@ -279,12 +279,12 @@ function obtenirNomsParticipants(){
     return listeNoms;
 }
 // mtn en genere et affiche clendrier des tours des DOM
-function genererCalendrier(){
+function genererCalendrier(aleatoire = false){
     const periodecite = document.getElementById("periodicite").value;
     const dateDebutStr = document.getElementById("date-debut").value;
     const cotisation = Number(document.getElementById("cotisation").value);
     // recuperer le tableau des participants
-    const participants = obtenirNomsParticipants();
+    const participants = obtenirsParticipantsOrdonnes(aleatoire);
     const montantTotal = cotisation * participants.length;
 
     const calendrierCorps = document.getElementById("calendrier-corps");
@@ -325,3 +325,37 @@ function genererCalendrier(){
 
     document.getElementById("resume-dates").textContent = `${premierTour} · ${dernierTour}`;
 }
+// US-05 Ordre des Tours 
+
+// ndiro un fct pour melanger un tableau au hasard 
+function melangerTableau(tableau) {
+    const copie = [...tableau];
+    for (let i = copie.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copie[i], copie[j]] = [copie[j], copie[i]];
+    }
+    return copie;
+}
+    // fction pour recuperer les prenoms (dans l ordre ou bien melanger)
+    function obtenirsParticipantsOrdonnes(aleatoire=false){
+        const inputs= document.querySelectorAll("#participants-liste input");
+        let listeNoms=[];
+
+        // recuperer les noms un par un 
+    inputs.forEach((inputs) => {
+        const nom = inputs.value.trim();
+        listeNoms.push(nom !== "" ? nom : "participant");
+    });
+    // clique "Tirer l'ordre au sort" on mélange
+    if (aleatoire === true){
+        listeNoms = melangerTableau(listeNoms);
+    }
+    return listeNoms;
+    }
+    document.getElementById("tirage-au-sort").addEventListener("click", () => {
+    genererCalendrier(true);
+});
+
+document.getElementById("ordre-saisie").addEventListener("click", () => {
+    genererCalendrier(false);
+});
