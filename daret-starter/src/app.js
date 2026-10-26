@@ -358,4 +358,4 @@ function melangerTableau(tableau) {
 
 document.getElementById("ordre-saisie").addEventListener("click", () => {
     genererCalendrier(false);
-});
+});    
