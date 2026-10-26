@@ -528,4 +528,44 @@ if (dialogDetailTour) {
         }
     });
 }
+
+// US-08 : REINITIALISER
+
+const reinitialiserBtn = document.getElementById("reinitialiser");
+
+function reinitialiserFormulaire() {
+    // 1. nvidiw les champs (reset kayrje3 input w select l valeur par defaut)
+    form.reset();
+
+    // 2. n7ydo toutes les erreurs
+    afficherErreur(nomCercleInput, "");
+    afficherErreur(cotisationInput, "");
+    afficherErreur(periodiciteInput, "");
+    afficherErreur(datedebutInput, "");
+
+    // 3. nrj3o l 3 participants li kanou f lbdaya
+    initialiserParticipants();
+
+    // 4. nkhwiw le calendrier w le compteur de tours
+    corpsCalendrier.innerHTML = "";
+    compteurTours.textContent = "";
+
+    // 5. nkhwiw les 4 cartes de resume
+    document.getElementById("resume-cagnotte").textContent = "";
+    document.getElementById("resume-total-cycle").textContent = "";
+    document.getElementById("resume-nb-tours").textContent = "";
+    document.getElementById("resume-dates").textContent = "";
+
+    // 6. nkhbio le bloc resultat w nwrio l etat vide
+    document.getElementById("contenu-resultat").classList.add("hidden");
+    document.getElementById("etat-vide").classList.remove("hidden");
+
+    // 7. focus 3la awel champ bach l'utilisateur ybda men jdid
+    nomCercleInput.focus();
+}
+
+// clic sur le bouton Réinitialiser
+if (reinitialiserBtn) {
+    reinitialiserBtn.addEventListener("click", reinitialiserFormulaire);
+}
  
