@@ -214,38 +214,58 @@
     </main>
 
     <!-- ================= FENÊTRE DE DÉTAIL (US-07) ================= -->
-    <dialog
-      id="detail-tour"
-      aria-labelledby="detail-titre"
-      class="m-auto w-[min(92vw,28rem)] rounded-lg border border-daret-bordure bg-white p-6 text-daret-encre backdrop:bg-daret-encre/50"
-    >
-      <h2 id="detail-titre" class="text-xl font-bold"></h2>
-      <dl class="mt-4 space-y-2">
-        <div>
-          <dt class="text-sm text-daret-encre/80">Date</dt>
-          <dd id="detail-date" class="font-medium"></dd>
+   <dialog
+    id="dialog-detail-tour"
+    aria-labelledby="titre-detail-tour"
+    class="w-full max-w-lg rounded-xl p-0 shadow-xl backdrop:bg-black/50"
+    style="margin: auto; width: 90%; max-width: 32rem; border-radius: 0.75rem; padding: 0;"
+>
+    <div class="p-6">
+        <div class="flex items-center justify-between gap-4">
+            <h2 id="titre-detail-tour" class="text-xl font-bold">
+                Détail du tour
+            </h2>
+
+            <button
+                type="button"
+                id="fermer-dialog-tour"
+                class="rounded border border-daret-bordure px-3 py-2"
+            >
+                Fermer
+            </button>
         </div>
-        <div>
-          <dt class="text-sm text-daret-encre/80">Bénéficiaire</dt>
-          <dd id="detail-beneficiaire" class="font-medium"></dd>
+
+        <div class="mt-5 space-y-4">
+            <p>
+                <strong>Numéro du tour :</strong>
+                <span id="detail-numero-tour"></span>
+            </p>
+
+            <p>
+                <strong>Date :</strong>
+                <span id="detail-date-tour"></span>
+            </p>
+
+            <p>
+                <strong>Bénéficiaire :</strong>
+                <span id="detail-beneficiaire"></span>
+            </p>
+
+            <p>
+                <strong>Montant reçu :</strong>
+                <span id="detail-montant"></span>
+            </p>
+
+            <div>
+                <h3 class="font-semibold">Autres cotisants</h3>
+                <ul
+                    id="detail-autres-cotisants"
+                    class="mt-2 list-disc pl-5"
+                ></ul>
+            </div>
         </div>
-        <div>
-          <dt class="text-sm text-daret-encre/80">Montant reçu</dt>
-          <dd id="detail-montant" class="font-medium"></dd>
-        </div>
-        <div>
-          <dt class="text-sm text-daret-encre/80">Participants qui versent à ce tour</dt>
-          <dd><ul id="detail-contributeurs" class="mt-1 list-inside list-disc"></ul></dd>
-        </div>
-      </dl>
-      <button
-        type="button"
-        id="detail-fermer"
-        class="mt-6 rounded bg-daret-vert px-5 py-2 font-semibold text-white focus:outline-2 focus:outline-offset-2 focus:outline-daret-vert"
-      >
-        Fermer
-      </button>
-    </dialog>
+    </div>
+</dialog>
 
     <footer class="mt-8 border-t border-daret-bordure bg-white">
       <p class="mx-auto max-w-5xl px-4 py-4 text-sm text-daret-encre/80">
